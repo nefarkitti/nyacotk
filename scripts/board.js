@@ -51,10 +51,18 @@ async function init(name) {
             
             const file = document.getElementById("post-url").value;
             try {
-                const response = await axios.post(`${URL}/boards/${(isReply == "false") ? name : `${parseInt(replyTo)}/post`}`, {
-                    subject,
-                    content: comment,
-                    file
+                const session = localStorage.getItem("kartissus")
+                const response = await axios({
+                    url: `${URL}/boards/${(isReply == "false") ? name : `${parseInt(replyTo)}/post`}`,
+                    method: "POST",
+                    headers: {
+                        "authorization": session
+                    },
+                    data: {
+                        subject,
+                        content: comment,
+                        file
+                    }
                 });
                 if (response.status === 200) window.location.reload();
             } catch (error) {
@@ -68,7 +76,13 @@ async function init(name) {
     const mainBoard = document.getElementById("board");
     if (!mainBoard) throw new Exception("G O N E") // finally racism is solved (wait what)
     try {
-        const req = await axios.get(`${URL}/boards/${name}?page=1`);
+        const req = await axios({
+            url: `${URL}/boards/${name}?page=1`,
+            method: "GET",
+            headers: {
+                "authorization": session
+            }
+        });
         const board = req.data;
         /*
 const board = {

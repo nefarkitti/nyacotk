@@ -56,8 +56,21 @@
 	<script defer>
 		(async function() {
 			try {
-				const stats = await axios.get(`${URL}/stats`);
-				const response = await axios.get(`${URL}/boards/list`);
+				const session = localStorage.getItem("kartissus")
+				const stats = await axios({
+					url: `${URL}/stats`,
+					method: "GET",
+					headers: {
+						"authorization": session
+					}
+				});
+				const response = await axios({
+					url: `${URL}/boards/list`,
+					method: "GET",
+					headers: {
+						"authorization": session
+					}
+				});
 				const boards = response.data;
 				const contents = document.querySelector('.contents');
 				const onlineUsers = document.getElementById('onlineUsers');

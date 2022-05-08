@@ -1,6 +1,13 @@
 async function aTimer(page) {
+    const session = localStorage.getItem("kartissus")
     try {
-        const verifyAuth = await axios.post(`${URL}/verify`);
+        const verifyAuth = await axios({
+            url: `${URL}/verify`,
+            method: "POST",
+            headers: {
+                "authorization": session
+            }
+        });
         if (page == "auth") window.location.href = "/main"
     } catch (error) {
         if (error.response.status == 401 && !["auth","404"].includes(page)) {
