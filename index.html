@@ -18,7 +18,7 @@
                     code: key
                 });
                 if (verifyAuth) {
-                    localStorage.setItem('kartissus', verifyAuth.token);
+                    localStorage.setItem('kartissus', verifyAuth.data.token);
                     window.location.href = '/main';
                 }
             } catch (e) {
