@@ -19,12 +19,13 @@ function toggleCreation() {
     startThread.hidden = true;
     creationForm.hidden = false;
 }
+let hidePost = {}
 function boardinit(boardpage) {
 const title = document.getElementById("title");
 if (!title) throw new Error("Title not found");
 
 console.log("hello world!")
-let hidePost = {}
+
 
 
 
