@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title id="title">nyaco.tk - Loading...</title>
+	<link rel="stylesheet" type="text/css" href="/style.css">
+	<meta charset="UTF-8">
+	<meta name="description" content="a ripoff of 4chcan">
+	<meta name="keywords" content="nyaco">
+	<meta name="author" content="Amy Velasquez">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="icon" type="image/png" href="/favicon.png">
+	<script src="/scripts/logo.js" defer></script>
+	<script src="/scripts/credit.js" defer></script>
+	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+	<script src="/scripts/config.js"></script>
+	<script src="/scripts/checkauth.js" defer></script>
+	<script src="/scripts/board.js" defer></script>
+	<script src="/scripts/ads.js" defer></script>
+</head>
+<body onload="checkAuth('404')">
+	<div class="top">
+		<img id="toplogo" src="" width="364" height="159">
+	</div>
+	<div id="404page">
+		
+	</div>
+	<div id="boardpage"></div>
+	<p class="credit" id="credit"></p>
+	<script>
+		const boardpage = document.getElementById("boardpage");
+		const fourofourpage = document.getElementById("404page");
+
+		function fourofourpagefn() {
+			fourofourpage.innerHTML = `
+		<div class="main">
+			<div class="tablething">
+				<div class="error-title"><b>404 Not Found</b></div>
+				<div class="error-contents" style="background:white;background-image:url('/LOOK_AT_HE_GO.gif');background-size:cover;background-position:bottom;image-rendering:pixelated;">
+					<img src="" width="325" height="325" style="object-fit: contain;" id="meem">
+					<h3>Could not find the page you were looking for.</h3>
+					<button onclick="history.back()">return</button>
+				</div>
+			</div>
+			
+		</div>`
+			document.title = "nyaco.tk - 404";
+
+			const array = [...Array(9).keys()].map(x => ([9].includes(x + 1)) ? `${x + 1}.png` : `${x + 1}.gif`)
+		
+			function minMaxRandom(min, max) {
+			return Math.floor(Math.random() * (max - min) ) + min;
+			};
+			const meem = document.getElementById("meem")
+			meem.src = `/404imgs/${array[minMaxRandom(0, array.length)]}`
+		}
+		async function initializeTrolling(board) {
+			// delete the 404page div
+			fourofourpage.remove();
+
+
+			// add a css file to the page
+			const css = document.createElement("link");
+			css.rel = "stylesheet";
+			css.href = "/otherbg.css";
+			css.type = "text/css";
+			document.head.appendChild(css);
+			document.title = `/${board.path}/ - ${board.name} - nyaco.tk`;
+
+			const boardPage = document.getElementById("boardpage");
+			boardPage.innerHTML = `
+			<div class="top-gradient"></div>
+	<h1 class="board-title">/${board.path}/ - ${board.name}</h1>
+	<a href="index.html" class="ad"><img src="../ad.png" width="400" height="80"></a><br>
+	<hr>
+	<div class="board-start-thread" id="startThreadText" onClick="toggleCreation()"><span><a><b>[start thread]</b></a></span></div>
+	<div class="creation-form" id="creation-form" hidden>
+		<form id="createPost">
+			<table>
+				<!--<tr>
+					<th class="creation-form-label">Name</th>
+					<th><input name="name" type="text" placeholder="Anonymous"></th>
+				</tr>
+				<tr>
+					<th class="creation-form-label">Options</th>
+					<th><input name="name" type="text"></th>
+				</tr>-->
+				<tr>
+					<th class="creation-form-label">Subject</th>
+					<th><input name="name" type="text" id="post-subject" autocomplete="off"> <input type="submit" value="Post" class="submitpost"></th>
+				</tr>
+				<tr>
+					<th class="creation-form-label">Comment</th>
+					<th><textarea name="com" cols="38" rows="4" wrap="soft" tabindex="4" id="post-comment" required autocomplete="off"></textarea></th>
+				</tr>
+				<!--<tr>
+					<th class="creation-form-label">Verification</th>
+					<th><input name="name" type="text"></th>
+				</tr>-->
+				<tr>
+					<th class="creation-form-label">File (URL)</th>
+					<th><input name="name" type="text" id="post-url" autocomplete="off"></th>
+				</tr>
+				<tr>
+					<th class="creation-form-label">image preview</th>
+					<th><img height="150" width="150" id="imgpreviewchange"></th>
+				</tr>
+				<tr>
+					<input type="hidden" id="isReply" value="false">
+					<input type="hidden" id="replyTo" value="-1">
+					<th><p id="errorText"></p></th>
+				</tr>
+			</table>
+		</form>
+	</div>
+	<br>
+	<hr>
+	<div id="board" class="main-board"></div>
+			<br>
+			<div class="other">
+		<a href="/about">about</a>
+		-
+		<a href="/feedback">feedback</a>
+	</div>`
+			boardinit(board.path)
+		};
+		(async function(URL) {
+			try {
+				const _response = await axios.get(`${URL}/boards/list`);
+				const _boards = _response.data;
+				const _board = location.pathname.split("/")[1];
+				const _boardExists = _boards.find(board => board.path == _board);
+				if (!_boardExists) return fourofourpagefn();
+				await checkAuth();
+				await initializeTrolling(_boardExists);		
+			} catch (e) {
+				console.error(e)
+				fourofourpagefn();
+			}
+		})(URL)
+	</script>
+</body>
+</html>

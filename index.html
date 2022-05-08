@@ -1,1 +1,36 @@
-hey
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>baa baa you dont have access</title>
+    <script src="/scripts/config.js" defer></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="/scripts/checkauth.js" defer></script>
+</head>
+<body onload="checkAuth('auth')">
+    <script>
+        async function submitForm() {
+            const key = document.getElementById('key').value;
+            const errorText = document.getElementById('errortext');
+            try {
+                const verifyAuth = await axios.post(`${URL}/auth`, {
+                    code: key
+                });
+                if (verifyAuth) window.location.href = '/main';
+            } catch (e) {
+                console.error(e);
+                errorText.innerHTML = e.response.data;
+                setTimeout(function() {
+                    errorText.innerHTML = '';
+                }, 2000)
+            }
+        }
+    </script>
+    <p>uhh uh huh h you dont have access what are yo doing !!!</p>
+    <label for="thing">access</label>
+    <input type="password" name="thing" id="key">
+    <button type="submit" onClick="submitForm()">submit</button>
+    <p id="errortext"></p>
+</body>
+</html>

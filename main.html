@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>nyaco.tk</title>
+	<link rel="stylesheet" type="text/css" href="style.css">
+	<meta charset="UTF-8">
+	<meta name="description" content="a ripoff of 4chcan">
+	<meta name="keywords" content="nyaco">
+	<meta name="author" content="Amy Velasquez">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="icon" type="image/png" href="favicon.png">
+	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+	<script src="/scripts/config.js"></script>
+	<script src="/scripts/logo.js" defer></script>
+	<script src="/scripts/credit.js" defer></script>
+	<script src="/scripts/checkauth.js" defer></script>
+</head>
+<body onload="checkAuth('main')">
+	<div class="top-gradient"></div>
+	<div class="top">
+		<img id="toplogo" src="" width="364" height="159">
+	</div>
+	<div class="main">
+		<!--<div class="tablething">
+			<div class="title"><b>popular</b></div>
+			<div class="contents">
+			</div>
+		</div><br>-->
+		<div class="tablething">
+			<div class="title"><b>boards</b></div>
+			<div class="contents">
+				<!--<a href="gen">/gen/ <span>(0)</span></a>
+				<a href="">/meta/ <span>(0)</span></a>
+				<a href="">/shit/ <span>(0)</span></a>-->
+				<!--<a href="">/kruma/ <span>(0)</span></a> sup kart & kruma-->
+				<!--<a href="">/jinx/ <span>(0)</span></a>-->
+				<!--<a href="">/mogus/ <span>(0)</span></a>-->
+			</div>
+		</div><br>
+		<div class="tablething">
+			<div class="title"><b>stats</b></div>
+			<div class="contents">
+				<span id="onlineUsers">online users: 0</span><br>
+				<span id="collectedPosts">collected posts: 0</span>
+			</div>
+		</div>
+		<br>
+		<div class="other">
+			<a href="about.html">about</a>
+			-
+			<a href="feedback.html">feedback</a>
+		</div>
+		<p class="credit" id="credit"></p>
+	</div>
+	<script defer>
+		(async function() {
+			try {
+				const stats = await axios.get(`${URL}/stats`);
+				const response = await axios.get(`${URL}/boards/list`);
+				const boards = response.data;
+				const contents = document.querySelector('.contents');
+				const onlineUsers = document.getElementById('onlineUsers');
+				const collectedPosts = document.getElementById('collectedPosts');
+				onlineUsers.innerText = `online users: ${stats.data.online}`;
+				collectedPosts.innerText = `collected posts: ${stats.data.posts}`;
+				for (let i = 0; i < boards.length; i++) {
+					console.log(boards)
+					const board = document.createElement('a');
+					board.href = `${boards[i].path}/`;
+					board.innerText = `/${boards[i].path}/`;
+					const span = document.createElement('span');
+					span.innerText = ` (${boards[i].posts})`;
+					board.appendChild(span);
+					
+					// Add a separator between boards
+					board.appendChild(document.createTextNode(' '));
+					board.appendChild(document.createTextNode(' '));
+
+					contents.appendChild(board);
+				}
+			} catch (e) {
+				console.error(e);
+			}
+		})()
+	</script>
+</body>
+</html>

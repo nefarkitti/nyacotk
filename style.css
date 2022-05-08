@@ -1,0 +1,180 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
+
+body {
+  background: #ffe url(fade1.png) top repeat-x;
+  background-color: rgb(204,241,255);
+  font-family: 'Open Sans', sans-serif;
+  color: #007acc;
+}
+
+body {
+  overflow-x: hidden;
+}
+.top img {
+  z-index: 1;
+  display: table;
+  margin: 0 auto;
+}
+
+.ad {
+  width: fit-content;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.spoiler {
+  color: black;
+  background-color: black;
+}
+.spoiler:hover {
+  color: white;
+}
+
+.main {
+  position: relative;
+  top: 7rem;
+  margin: auto;
+  width: 50rem;
+  padding: 10px;
+}
+h1.board-title {
+  position: inherit;
+  top: -7rem;
+  font-size: 4rem;
+  text-align: center;
+}
+div.board-start-thread {
+  color: blue;
+  font-size: 20px;
+  position: relative;
+  top: 0.5rem;
+  text-align: center;
+}
+div.board-start-thread:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+div.main-board {
+  width: 100%;
+  height: 20%;
+}
+div.main-board hr {
+  width: 100%;
+}
+
+
+div.creation-form form table {
+  margin: auto;
+  padding: 10px;
+}
+div.creation-form form table  {
+  
+  color: black;
+  text-align: left;
+}
+div.creation-form form table tr th.creation-form-label {
+  border: 1px solid black;
+  padding: .2rem;
+  background-color: rgb(245, 67, 67);
+  text-align: left;
+}
+div.creation-form form table tr th img {
+  object-fit: contain;
+  border: 1px solid black;
+  background-color: white;
+}
+
+
+div.thread button.hideshow {
+  margin-right: 0.2rem;
+  margin-bottom: 0.5rem;
+  float: left;
+}
+div.thread-info {
+  width: inherit;
+  text-indent: 0.6rem;
+  padding-top: 0.3rem;
+}
+div.thread-info a {
+  text-decoration: underline;
+  color: blue;
+}
+div.thread-op-info a {
+  cursor: pointer;
+  text-decoration: underline;
+  color:blue;
+}
+div.thread-file {
+  float: left;
+  padding-right: 0.5rem;
+  padding-left: 0.5rem;
+  padding-top: 0.25rem;
+  display: table-cell;
+}
+div.thread-contents {
+  /*display: table-cell;*/
+  vertical-align: top;
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+  margin-left: 1rem;
+  margin-right: 1rem;
+  /*max-width: 100%;*/
+}
+div.thread-text p {
+  overflow-wrap: break-word;
+  /*max-width: 100%;*/
+}
+
+div.thread-reply {
+  background: rgb(255, 178, 178);
+  float: left;
+  width:fit-content;
+  height: fit-content;
+  display: table-cell;
+  vertical-align: bottom;
+  margin-bottom: 0.7rem;
+}
+div.thread-reply-contents {
+  display:block;
+}
+
+
+
+.tablething {
+  position: relative;
+  width: 50rem;
+  border:  1px solid blue;
+}
+.tablething div.title {
+  position: relative;
+  padding: 0.3rem;
+  background:  #7bd8ee;
+}
+.tablething div.error-title {
+  text-align: center;
+  position: relative;
+  padding: 0.3rem;
+  background:  #7bd8ee;
+}
+.tablething div.contents {
+  padding: 1rem;
+  background: white;
+ /* background-image: url("LOOK_AT_HE_GO.gif");
+  background-size: cover;
+  background-position:  bottom;*/
+}
+.tablething div.error-contents {
+  text-align: center;
+  padding: 1rem;
+  background: white;
+}
+
+.other {
+  text-align: center;
+}
+.credit {
+  filter: opacity(25%);
+  text-align: center;
+}

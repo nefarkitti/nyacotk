@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title id="title">/gen/ - General - nyako.tk</title>
+	<meta charset="UTF-8">
+	<meta name="description" content="a ripoff of 4chcan">
+	<meta name="keywords" content="nyaco">
+	<meta name="author" content="Amy Summers">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="icon" type="image/png" href="../favicon.png">
+	<link rel="stylesheet" type="text/css" href="../style.css">
+	<link rel="stylesheet" type="text/css" href="../otherbg.css">
+	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+	<script src="/scripts/config.js" defer></script>
+	<script src="/scripts/checkauth.js" defer></script>
+	<script src="/scripts/board.js" defer></script>
+	<script src="/scripts/credit.js" defer></script>
+	<script src="/scripts/logo.js" defer></script>
+	<script src="/scripts/ads.js" defer></script>
+</head>
+<body onload="checkAuth()">
+	<div class="top-gradient"></div>
+	<div class="top">
+		<img id="toplogo" src="" width="364" height="159"> <!-- this returns you to the main page? -->
+	</div>
+	<h1 class="board-title">/gen/ - General</h1>
+	<a href="index.html" class="ad"><img src="../ad.png" width="400" height="80"></a><br>
+	<hr>
+	<div class="board-start-thread" id="startThreadText" onClick="toggleCreation()"><span><a><b>[start thread]</b></a></span></div>
+	<div class="creation-form" id="creation-form" hidden>
+		<form id="createPost">
+			<table>
+				<!--<tr>
+					<th class="creation-form-label">Name</th>
+					<th><input name="name" type="text" placeholder="Anonymous"></th>
+				</tr>
+				<tr>
+					<th class="creation-form-label">Options</th>
+					<th><input name="name" type="text"></th>
+				</tr>-->
+				<tr>
+					<th class="creation-form-label">Subject</th>
+					<th><input name="name" type="text" id="post-subject" autocomplete="off"> <input type="submit" value="Post" class="submitpost"></th>
+				</tr>
+				<tr>
+					<th class="creation-form-label">Comment</th>
+					<th><textarea name="com" cols="38" rows="4" wrap="soft" tabindex="4" id="post-comment" required autocomplete="off"></textarea></th>
+				</tr>
+				<!--<tr>
+					<th class="creation-form-label">Verification</th>
+					<th><input name="name" type="text"></th>
+				</tr>-->
+				<tr>
+					<th class="creation-form-label">File (URL)</th>
+					<th><input name="name" type="text" id="post-url" autocomplete="off"></th>
+				</tr>
+				<tr>
+					<th class="creation-form-label">image preview</th>
+					<th><img height="150" width="150" id="imgpreviewchange"></th>
+				</tr>
+				<tr>
+					<input type="hidden" id="isReply" value="false">
+					<input type="hidden" id="replyTo" value="-1">
+					<th><p id="errorText"></p></th>
+				</tr>
+			</table>
+		</form>
+	</div>
+	<br>
+	<hr>
+	<div id="board" class="main-board">
+		<!--<div class="thread">
+			<button id="hideshow" onClick="toggleHide('thread-posts-somerandomid');" class="hideshow">hide</button>
+			<div id="thread-posts-somerandomid">
+				<div class="thread-info" hidden>File: <a href="https://pbs.twimg.com/media/EXFXCnWXkAEZKDQ.jpg">https://pbs.twimg.com/media/EXFXCnWXkAEZKDQ.jpg</a> (33.2KB, 591x512)</div>
+				<div class="thread-file"><img src="https://pbs.twimg.com/media/EXFXCnWXkAEZKDQ.jpg" width="160" hidden></div>
+				<div class="thread-contents">
+					<div class="thread-op-info"><b>nyaco.tk <span style="color:green;">Anonymous</span></b> c0p3&m41d | <a href="">1</a> (12/03/2022 19:44) <a>[reply]</a></div>
+					<div class="thread-text">
+						<p>
+							<font style="color:purple;">
+								&gt;be me<br>
+							</font>
+						</p>
+						<button>show all comments</button>
+					</div>
+				</div>
+				<div class="thread-reply">
+					<div class="thread-reply-contents">
+						<div class="thread-info" hidden>File: <a href="https://pbs.twimg.com/media/EXFXCnWXkAEZKDQ.jpg">https://pbs.twimg.com/media/EXFXCnWXkAEZKDQ.jpg</a> (33.2KB, 591x512)</div>
+						<div class="thread-file" hidden><img src="https://pbs.twimg.com/media/EXFXCnWXkAEZKDQ.jpg" width="160" hidden></div>
+						<div class="thread-contents">
+							<div class="thread-op-info"><b><span style="color:green;">Anonymous</span></b> c0p3&m41d | <a href="">2</a> (12/03/2022 19:44)</div>
+							<div class="thread-text">
+								<p>
+									<font style="color:purple;">
+										&gt;be me<br>
+									</font>
+									i dont know if this was a good idea or a bad one<br>
+									<span class="spoiler">this is a spoiler</span><br>
+								</p>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="thread-reply" style="clear:left;">
+					<div class="thread-reply-contents">
+						<div class="thread-info" >File: <a href="https://pbs.twimg.com/media/EXFXCnWXkAEZKDQ.jpg">https://pbs.twimg.com/media/EXFXCnWXkAEZKDQ.jpg</a> (33.2KB, 591x512)</div>
+						<div class="thread-file"><img src="https://pbs.twimg.com/media/EXFXCnWXkAEZKDQ.jpg" width="160" ></div>
+						<div class="thread-contents">
+							<div class="thread-op-info"><b><span style="color:green;">Anonymous</span></b> c0p3&m41d | <a href="">3</a> (12/03/2022 19:44)</div>
+							<div class="thread-text">
+								<p>
+									<font style="color:purple;">
+										&gt;be me<br>
+										&gt;nyaco.tk frontend dev<br>
+										&gt;start work on the frontend<br>
+										&gt;things are going good<br>
+										&gt;wait<br>
+										&gt;this is just the front page<br>
+										&gt;yeshoney.jpg<br>
+									</font>
+									i dont know if this was a good idea or a bad one<br>
+								</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<hr>-->
+	</div>
+	<br>
+	<div class="other">
+		<a href="/about">about</a>
+		-
+		<a href="/feedback">feedback</a>
+	</div>
+	<p class="credit" id="credit"></p>
+</body>
+</html>
