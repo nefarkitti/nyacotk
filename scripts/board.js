@@ -76,6 +76,7 @@ async function init(name) {
     const mainBoard = document.getElementById("board");
     if (!mainBoard) throw new Exception("G O N E") // finally racism is solved (wait what)
     try {
+        const session = localStorage.getItem("kartissus")
         const req = await axios({
             url: `${URL}/boards/${name}?page=1`,
             method: "GET",
