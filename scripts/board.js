@@ -397,7 +397,10 @@ function generatePost(post, isReply, index) {
             content.appendChild(span);
             content.appendChild(document.createElement("br"));
         } else {
-            content.appendChild(document.createTextNode(line));
+	    const span = document.createElement("span");
+            span.innerText = line;
+            content.appendChild(span);
+	    content.appendChild(document.createElement("br"));
         }
         
     }
