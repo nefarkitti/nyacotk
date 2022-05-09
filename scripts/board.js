@@ -376,6 +376,7 @@ function generatePost(post, isReply, index) {
 
     const content = document.createElement("p");
     const text = post.content.split("\n")
+    let lastNewLine = 0;
     for (let i = 0; i < text.length; i++) {
         // implementing markdown
         const line = text[i];
@@ -392,8 +393,18 @@ function generatePost(post, isReply, index) {
             span.innerText = line;
             content.appendChild(span);
             content.appendChild(document.createElement("br"));
+            //<span class="spoiler">this is a spoiler</span><br>
         } else {
-            content.appendChild(document.createTextNode(line));
+            if (!line.length) {
+                lastNewLine++;
+                if (lastNewLine >= 2) {
+                    lastNewLine = 0;
+                } else {
+                    content.appendChild(document.createElement("br"));
+                }
+            } else {
+                content.appendChild(document.createTextNode(line));
+            }
         }
         
     }

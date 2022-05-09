@@ -61,6 +61,7 @@ div.main-board {
   height: 20%;
 }
 div.main-board hr {
+  clear:both; /* this fixes the firefox issue im not even kidding */
   width: 100%;
 }
 
@@ -81,6 +82,7 @@ div.creation-form form table tr th.creation-form-label {
   text-align: left;
 }
 div.creation-form form table tr th img {
+  
   object-fit: contain;
   border: 1px solid black;
   background-color: white;
