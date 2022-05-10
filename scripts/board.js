@@ -38,7 +38,10 @@ async function init(name) {
         const imgPreview = document.getElementById("imgpreviewchange")
         urlCheck.onchange = function () {
             if (urlCheck.value.length && (urlCheck.value.startsWith("http://") || urlCheck.value.startsWith("https://"))) {
-                imgPreview.src = `${URL}/external?url=${encodeURIComponent(urlCheck.value)}`;;
+                //imgPreview.src = `${URL}/external?url=${encodeURIComponent(urlCheck.value)}`;;
+		// too much requests loll glitch doesnt like that
+		imgPreview.src = `https://external-content.duckduckgo.com/iu/?u=${encodeURIComponent(urlCheck.value)}`
+		// yeah i think duckduckgo wont mind that too much
             }
         }
 
@@ -283,8 +286,9 @@ function generatePost(post, isReply, index) {
     
     if (post.file != null) {
         const img = document.createElement("img");
-        img.src = `${URL}/external?url=${encodeURIComponent(post.file)}`;
-        if (["https://cdn.upload.systems","https://i.upload.systems"].filter(x=>post.file.startsWith(x)).length) {
+        //img.src = `${URL}/external?url=${encodeURIComponent(post.file)}`;
+        img.src = `https://external-content.duckduckgo.com/iu/?u=${encodeURIComponent(post.file)}`
+	if (["https://cdn.upload.systems","https://i.upload.systems"].filter(x=>post.file.startsWith(x)).length) {
             img.src = post.file;
         }
         img.loading = "lazy"; // performance gain
@@ -376,7 +380,6 @@ function generatePost(post, isReply, index) {
 
     const content = document.createElement("p");
     const text = post.content.split("\n")
-    let lastNewLine = 0;
     for (let i = 0; i < text.length; i++) {
         // implementing markdown
         const line = text[i];
@@ -393,18 +396,11 @@ function generatePost(post, isReply, index) {
             span.innerText = line;
             content.appendChild(span);
             content.appendChild(document.createElement("br"));
-            //<span class="spoiler">this is a spoiler</span><br>
         } else {
-            if (!line.length) {
-                lastNewLine++;
-                if (lastNewLine >= 2) {
-                    lastNewLine = 0;
-                } else {
-                    content.appendChild(document.createElement("br"));
-                }
-            } else {
-                content.appendChild(document.createTextNode(line));
-            }
+	    const span = document.createElement("span");
+            span.innerText = line;
+            content.appendChild(span);
+	    content.appendChild(document.createElement("br"));
         }
         
     }
