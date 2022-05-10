@@ -61,6 +61,7 @@ div.main-board {
   height: 20%;
 }
 div.main-board hr {
+  clear: both;
   width: 100%;
 }
 
