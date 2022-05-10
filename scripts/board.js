@@ -37,7 +37,6 @@ function parseMarkdown(msg) { // https://www.bigomega.dev/markdown-parser/
 
 
     htmlText = htmlText.replaceAll(/^\|\|(.*?)\|\|/gim, '<span class="spoiler">$1</span>')
-    console.error(htmlText)
     return htmlText.trim();
 
 
