@@ -14,13 +14,14 @@
 	<link rel="stylesheet" type="text/css" href="../otherbg.css">
 	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 	<script src="/scripts/config.js" defer></script>
-	<script src="/scripts/checkauth.js" defer></script>
-	<script src="/scripts/board.js" defer></script>
+	<!--<script src="/scripts/checkauth.js" defer></script>-->
+	<script src="/scripts/boardtest.js" defer></script>
 	<script src="/scripts/credit.js" defer></script>
 	<script src="/scripts/logo.js" defer></script>
 	<script src="/scripts/ads.js" defer></script>
+
 </head>
-<body onload="checkAuth()">
+<body>
 	<div class="top-gradient"></div>
 	<div class="topbar">
 		|
@@ -75,7 +76,8 @@
 	</div>
 	<br>
 	<hr>
-	<div id="board" class="main-board">
+	<div id="board" class="main-board"></div>
+	<div id="boardd" class="main-board" hidden>
 		<div class="thread">
 			<button id="hideshow" onClick="toggleHide('thread-posts-somerandomid');" class="hideshow">hide</button>
 			<div id="thread-posts-somerandomid">

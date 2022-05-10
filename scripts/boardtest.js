@@ -113,15 +113,7 @@ async function init(name) {
     if (!mainBoard) throw new Exception("G O N E") // finally racism is solved (wait what)
     try {
         const session = localStorage.getItem("kartissus")
-        const req = await axios({
-            url: `${URL}/boards/${name}?page=1`,
-            method: "GET",
-            headers: {
-                "authorization": session
-            }
-        });
-        const board = req.data;
-        /*
+
 const board = {
     name: "/gen/",
     threads: [{
@@ -140,7 +132,7 @@ const board = {
                 id: "c0p3Am42d"
             },
             date: "12/03/2022 20:45",
-            content: ">be me\ni dont know if this was a good idea or a bad one\n||this is a spoiler",
+            content: ">be me\ni dont know if this was a good idea or a bad one\n||this is a spoiler|| this is epic\nalso imma do a <script>alert('hi')</script>",
             file: null
         }, {
             id: 3,
@@ -149,11 +141,11 @@ const board = {
                 id: "c0p3Am42d"
             },
             date: "12/04/2022 00:64",
-            content: ">be me\n>>nyaco.tk frontend dev\n>start work on the frontend\n>things are going good\n>wait\n>this is just the front page\n>yeshoney.jpg\ni dont know if this was a good idea or a bad one",
+            content: ">>2\nalso >>8 doesnt exist lol\n>be me\n>>1 missed post hahahaha\n>>nyaco.tk frontend dev\nalso this >>2 works anywhere hahaha\n>start work on the frontend\n>things are going good\n>wait\n>this is just the front page\n>yeshoney.jpg\ni dont know if this was a good idea or a bad one",
             file: "https://pbs.twimg.com/media/EXFXCnWXkAEZKDQ.jpg"
         }]
     }]
-}*/
+}
         board.threads.forEach(thread => {
             // we do a LIL too much trolling
             const threadDiv = document.createElement("div");
@@ -471,3 +463,4 @@ function generatePost(post, isReply, index) {
 }
 // silly
 }
+boardinit("gen")
