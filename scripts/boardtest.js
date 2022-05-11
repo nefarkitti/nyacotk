@@ -37,7 +37,6 @@ function parseMarkdown(msg) { // https://www.bigomega.dev/markdown-parser/
 
 
     htmlText = htmlText.replaceAll(/^\|\|(.*?)\|\|/gim, '<span class="spoiler">$1</span>')
-    console.error(htmlText)
     return htmlText.trim();
 
 
@@ -110,14 +109,17 @@ async function init(name) {
 
 
     const mainBoard = document.getElementById("board");
-    if (!mainBoard) throw new Exception("G O N E") // finally racism is solved (wait what)
+    const openBoard = document.getElementById("boardopened");
+    if (!mainBoard) throw alert("G O N E") // finally racism is solved (wait what)
+    if (!openBoard) throw alert("I M  I N S I D E  Y O U R  W A L L S")
+    
     try {
         const session = localStorage.getItem("kartissus")
 
 const board = {
     name: "/gen/",
     threads: [{
-        id: 1, // also thread ID as well
+        id: 2, // also thread ID as well
         user: {
             name: "Anonymous",
             id: "c0p3Am41d"
@@ -144,6 +146,16 @@ const board = {
             content: ">>2\nalso >>8 doesnt exist lol\n>be me\n>>1 missed post hahahaha\n>>nyaco.tk frontend dev\nalso this >>2 works anywhere hahaha\n>start work on the frontend\n>things are going good\n>wait\n>this is just the front page\n>yeshoney.jpg\ni dont know if this was a good idea or a bad one",
             file: "https://pbs.twimg.com/media/EXFXCnWXkAEZKDQ.jpg"
         }]
+    }, {
+        id: 1, // also thread ID as well
+        user: {
+            name: "Anonymous",
+            id: "c0p3Am41d"
+        },
+        date: "12/03/2022 19:44",
+        content: ">haha another post!",
+        file: null,
+        replies: []
     }]
 }
         board.threads.forEach(thread => {
@@ -153,17 +165,18 @@ const board = {
             // Button
             const hideShowButton = document.createElement("button");
             hideShowButton.id = `hideshow-${thread.id}`;
-            hideShowButton.onclick = function () {
-                toggleHide(`hideshow-${thread.id}`, `thread-posts-${thread.id}`, ["show", "hide"]);
-            };
+
             hideShowButton.classList.add("hideshow");
-            hideShowButton.innerText = "hide";
-        
+            //hideShowButton.innerText = "hide";
+            hideShowButton.innerText = "go back to board";
+            hideShowButton.hidden = true;
+
             // Posts div
             const postsDiv = document.createElement("div");
             postsDiv.id = 'thread-posts-' + thread.id;
         
             threadDiv.appendChild(hideShowButton);
+            
             // posts
             const postDiv = generatePost(thread, false);
             //threadDiv.appendChild(postDiv);
@@ -176,7 +189,7 @@ const board = {
                 const replyDiv = generatePost(reply, true, thread.replies.indexOf(reply));
                 //replyDiv.style.clear = "left"
                 const index = thread.replies.indexOf(reply);
-                if (index < 4) fewReplies.appendChild(replyDiv);
+                if (index < 5) fewReplies.appendChild(replyDiv);
                 else mostReplies.appendChild(replyDiv);
                 //threadDiv.appendChild(replyDiv);
             })
@@ -184,25 +197,88 @@ const board = {
             const hideShowReplies = document.createElement("button");
             hideShowReplies.id = `hs-replies-${thread.id}`;
             mostReplies.hidden = true;
-            hideShowReplies.onclick = function () {
-                toggleHide(`hs-replies-${thread.id}`, `reply-more-${thread.id}`, ["show all comments", "hide fewer comments"]);
-            };
             hidePost[`reply-more-${thread.id}`] = false;
             hideShowReplies.classList.add("hideshow");
-            hideShowReplies.innerText = "show all comments";
-            hideShowReplies.style.clear = "left";
+            hideShowReplies.innerText = "open thread";
+            hideShowReplies.style.float = "none";
             if (thread.replies.length) {
+                if (thread.replies.length > 5) postsDiv.appendChild(hideShowReplies);
                 postsDiv.appendChild(fewReplies);
-                if (thread.replies.length > 4) {
+                if (thread.replies.length > 5) {
                     postsDiv.appendChild(mostReplies);
+                    
                 }
-                postsDiv.appendChild(hideShowReplies);
             }
             threadDiv.appendChild(postsDiv);
             threadDiv.appendChild(document.createElement("hr"));
             
-            
             mainBoard.appendChild(threadDiv);
+
+/*
+hideShowButton.onclick = function () {
+                ///toggleHide(`hideshow-${thread.id}`, `thread-posts-${thread.id}`, ["show", "hide"]);
+                // Show mainBoard again and remove all HTML from openBoard
+                mainBoard.hidden = false;
+                openBoard.hidden = true;
+
+                hideShowButton.hidden = true;
+                hideShowReplies.hidden = false;
+
+                // Move all children of openBoard to mainBoard
+                while (openBoard.firstChild) {
+                    mainBoard.appendChild(openBoard.firstChild);
+                }
+
+                // Remove all children of openBoard
+                while (openBoard.firstChild) {
+                    openBoard.removeChild(openBoard.firstChild);
+                }
+
+
+                // Move thread to mainBoard
+                //const thread = document.querySelector('.thread')
+                //mainBoard.insertBefore(openBoard, mainBoard.firstChild);
+                //openBoard.innerHTML = "";
+            };
+*/
+
+            hideShowReplies.onclick = function () {
+                //toggleHide(`hs-replies-${thread.id}`, `reply-more-${thread.id}`, ["show all comments", "hide fewer comments"]);
+                // hide mainBoard
+                mainBoard.hidden = true;
+                openBoard.hidden = false;
+                // append threadDiv to openBoard
+                hideShowButton.hidden = false;
+                hideShowReplies.hidden = true;
+                
+                // Create a clone of threadDiv with the button events and all, then append it to openBoard
+                const threadDivClone = threadDiv.cloneNode(true);
+                console.log(threadDivClone.childNodes[0])
+                threadDivClone.childNodes[0].onclick = function () {
+                    ///toggleHide(`hideshow-${thread.id}`, `thread-posts-${thread.id}`, ["show", "hide"]);
+                    // Show mainBoard again and remove all HTML from openBoard
+                    mainBoard.hidden = false;
+                    openBoard.hidden = true;
+
+                    hideShowButton.hidden = true;
+                    hideShowReplies.hidden = false;
+
+                    // Remove all children of openBoard
+                    while (openBoard.firstChild) {
+                        openBoard.removeChild(openBoard.firstChild);
+                    }
+                }
+                console.log(threadDivClone.childNodes[0])
+
+
+
+
+                
+
+                openBoard.appendChild(threadDivClone);
+                //mainBoard.innerHTML = ""
+
+            };
             
             /*
         <div class="thread">
@@ -318,7 +394,6 @@ function generatePost(post, isReply, index) {
         img.alt = "Image Loading...";
         
         const { width, height } = img;
-        console.log(width, height);
 
         img.onerror = function () {
             img.hidden = true;
