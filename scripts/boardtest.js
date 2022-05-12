@@ -33,10 +33,13 @@ function parseMarkdown(msg) { // https://www.bigomega.dev/markdown-parser/
     // You can use ** for bold, _ for italic, and ` for code
     let messages = msg.split(" ")
     let htmlText = messages.map(msg => msg
+        .replace(/\&gt;\&gt;\&gt;(.*)/gim, '<a href="jfe<oiwfjoiewfnodfndofnmaidswoifdfshicujewcic$1sussfykakrtkrtkawreoifwfjkarting">FEWNUIFEWHFIUWENIFUN&gt;WEFSUSUSUSUSUSUSUSFUW&gt;EFUEWIFWEFJSDFNZXJNDZXKJSUSSYYTHATSABITSUS$1</a>')
         .replace(/\&gt;\&gt;(.*)/gim, '<a href="#post-:specialnyacosodaofferat<><>today!alsohikart!!$1">&gt;&gt;$1</a>')).join(" ")
 
 
-    htmlText = htmlText.replaceAll(/^\|\|(.*?)\|\|/gim, '<span class="spoiler">$1</span>')
+    //htmlText = htmlText.replaceAll(/^\|\|(.*?)\|\|/gim, '<span class="spoiler">$1</span>')
+    htmlText = htmlText.replaceAll(/\|\|(.*?)\|\|/gim, '<span class="spoiler">$1</span>')
+    
     return htmlText.trim();
 
 
@@ -119,6 +122,70 @@ async function init(name) {
 const board = {
     name: "/gen/",
     threads: [{
+        id: 4, // also thread ID as well
+        user: {
+            name: "Anonymous",
+            id: "c0p3Am41d"
+        },
+        date: "12/03/2022 19:44",
+        content: ">have the most replies\n>become ||jinx|| ratt\n>profit",
+        file: null,
+        replies: [{
+            id: 5,
+            user: {
+                name: "Anonymous",
+                id: "c0p3Am42d"
+            },
+            date: "12/03/2022 20:45",
+            content: "i agree with this",
+            file: null
+        }, {
+            id: 6,
+            user: {
+                name: "Anonymous",
+                id: "c0p3Am42d"
+            },
+            date: "12/04/2022 00:64",
+            content: "i also agree with this",
+            file: null
+        }, {
+            id: 7,
+            user: {
+                name: "Anonymous",
+                id: "c0p3Am42d"
+            },
+            date: "12/04/2022 00:64",
+            content: "yes",
+            file: null
+        }, {
+            id: 8,
+            user: {
+                name: "Anonymous",
+                id: "c0p3Am42d"
+            },
+            date: "12/04/2022 00:64",
+            content: "yup",
+            file: null
+        }, {
+            id: 9,
+            user: {
+                name: "Anonymous",
+                id: "c0p3Am42d"
+            },
+            date: "12/04/2022 00:64",
+            content: "rats",
+            file: null
+        }, {
+            id: 10,
+            user: {
+                name: "Anonymous",
+                id: "c0p3Am42d"
+            },
+            date: "12/04/2022 00:64",
+            content: "joinkers",
+            file: null
+        }]
+    }, {
         id: 2, // also thread ID as well
         user: {
             name: "Anonymous",
@@ -134,7 +201,7 @@ const board = {
                 id: "c0p3Am42d"
             },
             date: "12/03/2022 20:45",
-            content: ">be me\ni dont know if this was a good idea or a bad one\n||this is a spoiler|| this is epic\nalso imma do a <script>alert('hi')</script>",
+            content: ">be me\ni dont know if this was a good idea or ||a bad|| one\n||this is a spoiler|| this is epic\nalso imma do a <script>alert('hi')</script>",
             file: null
         }, {
             id: 3,
@@ -143,7 +210,7 @@ const board = {
                 id: "c0p3Am42d"
             },
             date: "12/04/2022 00:64",
-            content: ">>2\nalso >>8 doesnt exist lol\n>be me\n>>1 missed post hahahaha\n>>nyaco.tk frontend dev\nalso this >>2 works anywhere hahaha\n>start work on the frontend\n>things are going good\n>wait\n>this is just the front page\n>yeshoney.jpg\ni dont know if this was a good idea or a bad one",
+            content: ">>2\nalso >>8 doesnt exist lol\nand >>>/gen/4 exists while als o>>>/gen\n>be me\n>>1 missed post hahahaha\n>>nyaco.tk frontend dev\nalso this >>2 works anywhere hahaha\n>start work on the frontend\n>things are going good\n>wait\n>this is just the front page >>2 while ||im|| dying inside\n>yeshoney.jpg\ni dont know if this was a good idea or a bad one",
             file: "https://pbs.twimg.com/media/EXFXCnWXkAEZKDQ.jpg"
         }]
     }, {
@@ -158,7 +225,7 @@ const board = {
         replies: []
     }]
 }
-        board.threads.forEach(thread => {
+        function createThreadDiv(thread, threadID) {
             // we do a LIL too much trolling
             const threadDiv = document.createElement("div");
             threadDiv.classList.add("thread");
@@ -194,55 +261,56 @@ const board = {
                 //threadDiv.appendChild(replyDiv);
             })
             mostReplies.id = `reply-more-${thread.id}`;
-            const hideShowReplies = document.createElement("button");
-            hideShowReplies.id = `hs-replies-${thread.id}`;
+            //const hideShowReplies = document.createElement("button");
+            //hideShowReplies.id = `hs-replies-${thread.id}`;
+            const hideShowReplies = document.createElement("a");
             mostReplies.hidden = true;
             hidePost[`reply-more-${thread.id}`] = false;
             hideShowReplies.classList.add("hideshow");
             hideShowReplies.innerText = "open thread";
-            hideShowReplies.style.float = "none";
+            hideShowReplies.href = `#thread-${thread.id}`
+            hideShowReplies.style.position = "relative";
+            hideShowReplies.style.bottom = "0.5rem";
+            hideShowReplies.hidden = false
+            postsDiv.appendChild(hideShowReplies);
+            postsDiv.appendChild(document.createElement("br"));
             if (thread.replies.length) {
-                if (thread.replies.length > 5) postsDiv.appendChild(hideShowReplies);
                 postsDiv.appendChild(fewReplies);
-                if (thread.replies.length > 5) {
-                    postsDiv.appendChild(mostReplies);
-                    
-                }
+                if (thread.replies.length > 5) postsDiv.appendChild(mostReplies);
             }
             threadDiv.appendChild(postsDiv);
             threadDiv.appendChild(document.createElement("hr"));
             
             mainBoard.appendChild(threadDiv);
-
-/*
-hideShowButton.onclick = function () {
-                ///toggleHide(`hideshow-${thread.id}`, `thread-posts-${thread.id}`, ["show", "hide"]);
-                // Show mainBoard again and remove all HTML from openBoard
-                mainBoard.hidden = false;
-                openBoard.hidden = true;
-
-                hideShowButton.hidden = true;
-                hideShowReplies.hidden = false;
-
-                // Move all children of openBoard to mainBoard
-                while (openBoard.firstChild) {
-                    mainBoard.appendChild(openBoard.firstChild);
-                }
-
-                // Remove all children of openBoard
-                while (openBoard.firstChild) {
-                    openBoard.removeChild(openBoard.firstChild);
-                }
-
-
-                // Move thread to mainBoard
-                //const thread = document.querySelector('.thread')
-                //mainBoard.insertBefore(openBoard, mainBoard.firstChild);
-                //openBoard.innerHTML = "";
-            };
-*/
-
-            hideShowReplies.onclick = function () {
+    /*
+    hideShowButton.onclick = function () {
+                    ///toggleHide(`hideshow-${thread.id}`, `thread-posts-${thread.id}`, ["show", "hide"]);
+                    // Show mainBoard again and remove all HTML from openBoard
+                    mainBoard.hidden = false;
+                    openBoard.hidden = true;
+    
+                    hideShowButton.hidden = true;
+                    hideShowReplies.hidden = false;
+        
+                        // Move all children of openBoard to mainBoard
+                        while (openBoard.firstChild) {
+                            mainBoard.appendChild(openBoard.firstChild);
+                        }
+        
+                        // Remove all children of openBoard
+                        while (openBoard.firstChild) {
+                            openBoard.removeChild(openBoard.firstChild);
+                        }
+        
+        
+                        // Move thread to mainBoard
+                        //const thread = document.querySelector('.thread')
+                        //mainBoard.insertBefore(openBoard, mainBoard.firstChild);
+                        //openBoard.innerHTML = "";
+                    };
+        */
+        
+            function showThread() {
                 //toggleHide(`hs-replies-${thread.id}`, `reply-more-${thread.id}`, ["show all comments", "hide fewer comments"]);
                 // hide mainBoard
                 mainBoard.hidden = true;
@@ -250,98 +318,107 @@ hideShowButton.onclick = function () {
                 // append threadDiv to openBoard
                 hideShowButton.hidden = false;
                 hideShowReplies.hidden = true;
-                
+                mostReplies.hidden = false;
                 // Create a clone of threadDiv with the button events and all, then append it to openBoard
                 const threadDivClone = threadDiv.cloneNode(true);
-                console.log(threadDivClone.childNodes[0])
                 threadDivClone.childNodes[0].onclick = function () {
                     ///toggleHide(`hideshow-${thread.id}`, `thread-posts-${thread.id}`, ["show", "hide"]);
                     // Show mainBoard again and remove all HTML from openBoard
                     mainBoard.hidden = false;
                     openBoard.hidden = true;
-
+    
                     hideShowButton.hidden = true;
                     hideShowReplies.hidden = false;
-
+                    mostReplies.hidden = true;
                     // Remove all children of openBoard
                     while (openBoard.firstChild) {
                         openBoard.removeChild(openBoard.firstChild);
                     }
+                    history.pushState("", document.title, window.location.pathname);
                 }
-                console.log(threadDivClone.childNodes[0])
-
-
-
-
-                
-
                 openBoard.appendChild(threadDivClone);
                 //mainBoard.innerHTML = ""
-
-            };
-            
-            /*
-        <div class="thread">
-                    <button id="hideshow" onClick="toggleHide('thread-posts-somerandomid');" class="hideshow">hide</button>
-                    <div id="thread-posts-somerandomid">
-                        <div class="thread-info" hidden>File: <a href="https://pbs.twimg.com/media/EXFXCnWXkAEZKDQ.jpg">https://pbs.twimg.com/media/EXFXCnWXkAEZKDQ.jpg</a> (33.2KB, 591x512)</div>
-                        <div class="thread-file"><img src="https://pbs.twimg.com/media/EXFXCnWXkAEZKDQ.jpg" width="160" hidden></div>
-                        <div class="thread-contents">
-                            <div class="thread-op-info"><b>nyaco.tk <span style="color:green;">Anonymous</span></b> c0p3&m41d | <a href="">1</a> (12/03/2022 19:44) <a>[reply]</a></div>
-                            <div class="thread-text">
-                                <p>
-                                    <font style="color:purple;">
-                                        &gt;be me<br>
-                                    </font>
-                                </p>
-                                <button>show all comments</button>
-                            </div>
-                        </div>
-                        <div class="thread-reply">
-                            <div class="thread-reply-contents">
+            }
+            hideShowReplies.onclick = showThread;
+            if (thread.id == threadID) showThread();
+                
+                /*
+                <div class="thread">
+                            <button id="hideshow" onClick="toggleHide('thread-posts-somerandomid');" class="hideshow">hide</button>
+                            <div id="thread-posts-somerandomid">
                                 <div class="thread-info" hidden>File: <a href="https://pbs.twimg.com/media/EXFXCnWXkAEZKDQ.jpg">https://pbs.twimg.com/media/EXFXCnWXkAEZKDQ.jpg</a> (33.2KB, 591x512)</div>
-                                <div class="thread-file" hidden><img src="https://pbs.twimg.com/media/EXFXCnWXkAEZKDQ.jpg" width="160" hidden></div>
+                                <div class="thread-file"><img src="https://pbs.twimg.com/media/EXFXCnWXkAEZKDQ.jpg" width="160" hidden></div>
                                 <div class="thread-contents">
-                                    <div class="thread-op-info"><b><span style="color:green;">Anonymous</span></b> c0p3&m41d | <a href="">2</a> (12/03/2022 19:44)</div>
+                                    <div class="thread-op-info"><b>nyaco.tk <span style="color:green;">Anonymous</span></b> c0p3&m41d | <a href="">1</a> (12/03/2022 19:44) <a>[reply]</a></div>
                                     <div class="thread-text">
                                         <p>
                                             <font style="color:purple;">
                                                 &gt;be me<br>
                                             </font>
-                                            i dont know if this was a good idea or a bad one<br>
-                                            <span class="spoiler">this is a spoiler</span><br>
                                         </p>
+                                        <button>show all comments</button>
+                                    </div>
+                                </div>
+                                <div class="thread-reply">
+                                    <div class="thread-reply-contents">
+                                        <div class="thread-info" hidden>File: <a href="https://pbs.twimg.com/media/EXFXCnWXkAEZKDQ.jpg">https://pbs.twimg.com/media/EXFXCnWXkAEZKDQ.jpg</a> (33.2KB, 591x512)</div>
+                                        <div class="thread-file" hidden><img src="https://pbs.twimg.com/media/EXFXCnWXkAEZKDQ.jpg" width="160" hidden></div>
+                                        <div class="thread-contents">
+                                            <div class="thread-op-info"><b><span style="color:green;">Anonymous</span></b> c0p3&m41d | <a href="">2</a> (12/03/2022 19:44)</div>
+                                            <div class="thread-text">
+                                                <p>
+                                                    <font style="color:purple;">
+                                                        &gt;be me<br>
+                                                    </font>
+                                                    i dont know if this was a good idea or a bad one<br>
+                                                    <span class="spoiler">this is a spoiler</span><br>
+                                                </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="thread-reply" style="clear:left;">
+                                        <div class="thread-reply-contents">
+                                            <div class="thread-info" >File: <a href="https://pbs.twimg.com/media/EXFXCnWXkAEZKDQ.jpg">https://pbs.twimg.com/media/EXFXCnWXkAEZKDQ.jpg</a> (33.2KB, 591x512)</div>
+                                            <div class="thread-file"><img src="https://pbs.twimg.com/media/EXFXCnWXkAEZKDQ.jpg" width="160" ></div>
+                                            <div class="thread-contents">
+                                                <div class="thread-op-info"><b><span style="color:green;">Anonymous</span></b> c0p3&m41d | <a href="">3</a> (12/03/2022 19:44)</div>
+                                                <div class="thread-text">
+                                                    <p>
+                                                        <font style="color:purple;">
+                                                            &gt;be me<br>
+                                                            &gt;nyaco.tk frontend dev<br>
+                                                            &gt;start work on the frontend<br>
+                                                            &gt;things are going good<br>
+                                                            &gt;wait<br>
+                                                            &gt;this is just the front page<br>
+                                                            &gt;yeshoney.jpg<br>
+                                                        </font>
+                                                        i dont know if this was a good idea or a bad one<br>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="thread-reply" style="clear:left;">
-                            <div class="thread-reply-contents">
-                                <div class="thread-info" >File: <a href="https://pbs.twimg.com/media/EXFXCnWXkAEZKDQ.jpg">https://pbs.twimg.com/media/EXFXCnWXkAEZKDQ.jpg</a> (33.2KB, 591x512)</div>
-                                <div class="thread-file"><img src="https://pbs.twimg.com/media/EXFXCnWXkAEZKDQ.jpg" width="160" ></div>
-                                <div class="thread-contents">
-                                    <div class="thread-op-info"><b><span style="color:green;">Anonymous</span></b> c0p3&m41d | <a href="">3</a> (12/03/2022 19:44)</div>
-                                    <div class="thread-text">
-                                        <p>
-                                            <font style="color:purple;">
-                                                &gt;be me<br>
-                                                &gt;nyaco.tk frontend dev<br>
-                                                &gt;start work on the frontend<br>
-                                                &gt;things are going good<br>
-                                                &gt;wait<br>
-                                                &gt;this is just the front page<br>
-                                                &gt;yeshoney.jpg<br>
-                                            </font>
-                                            i dont know if this was a good idea or a bad one<br>
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            */
-        })
+                        */
+        }
+        let specificThread = null;
+        if (window.location.hash.startsWith("#thread-")) {
+            const threadId = parseInt(window.location.hash.split("-")[1]);
+            const thread = board.threads.find(thread => thread.id == threadId);
+            if (!thread) {
+                alert("I AM INSIDE YOUR WALLS.")
+                window.location.href = `/${boardpage}`;
+                return;
+            }
+            specificThread = threadId;
+            const sorting = document.getElementById("sorting");
+            if (sorting) sorting.hidden = true;
+        }
+        board.threads.forEach(thread => createThreadDiv(thread, specificThread != null && specificThread));
+        
         //mainBoard.appendChild(document.createElement("hr"))
     } catch (error) {
         if (error.response && error.response.status === 401) {
@@ -392,7 +469,6 @@ function generatePost(post, isReply, index) {
         }
         img.loading = "lazy"; // performance gain
         img.alt = "Image Loading...";
-        
         const { width, height } = img;
 
         img.onerror = function () {
@@ -401,6 +477,11 @@ function generatePost(post, isReply, index) {
 
         img.onload = function () {
             img.width = 160
+        }
+
+        img.onclick = function () {
+            // Reset the width to the original
+            img.width = img.naturalWidth;
         }
           
 
@@ -451,6 +532,7 @@ function generatePost(post, isReply, index) {
         toggleCreation();
         const form = document.getElementById("createPost");
         form.hidden = false;
+        document.getElementById("generally-subject").hidden = true;
         document.getElementById("post-comment").value = `>>${post.id}`;
         document.getElementById("isReply").value = true;
         document.getElementById("replyTo").value = post.id;
@@ -482,15 +564,16 @@ function generatePost(post, isReply, index) {
         // implementing markdown
         //<span class="spoiler">this is a spoiler</span><br>
         const line = text[i];
+        const span = document.createElement("span");
+        span.innerHTML = parseMarkdown(escapeHTML(line))
         /*if (line.startsWith(">>")) {
             
         } else */if (line.startsWith(">") && !line.startsWith(">>")) {
             // turning text to purple
-            const span = document.createElement("span");
             span.style.color = "purple";
-            span.innerText = line;
+            /*span.innerText = line;
             content.appendChild(span);
-            content.appendChild(document.createElement("br"));
+            content.appendChild(document.createElement("br"));*/
         } else {
             /*
             // create an a tag which links to the post
@@ -507,17 +590,41 @@ function generatePost(post, isReply, index) {
                 content.appendChild(span);
             }*/
             //parseMarkdown(escapeHTML(content.content))
-            const span = document.createElement("span");
-            span.innerHTML = parseMarkdown(escapeHTML(line))
-            
-            // Use .replaceAll on span to replace :specialnyacosodaofferat<><>today!alsohikart!! with the linked post ID
-            span.innerHTML = span.innerHTML.replaceAll(":specialnyacosodaofferat<><>today!alsohikart!!", "")
-
-            //.replace(":specialnyacosodaofferat<><>today!alsohikart!!");
-            content.appendChild(span);
-            content.appendChild(document.createElement("br"));
+            //const span = document.createElement("span");
+            //span.innerHTML = parseMarkdown(escapeHTML(line))
         }
-        
+        // Use .replaceAll on span to replace :specialnyacosodaofferat<><>today!alsohikart!! with the linked post ID
+        span.innerHTML = span.innerHTML.replaceAll(":specialnyacosodaofferat<><>today!alsohikart!!", "")
+        span.innerHTML = span.innerHTML.replaceAll("FEWNUIFEWHFIUWENIFUN&gt;WEFSUSUSUSUSUSUSUSFUW&gt;EFUEWIFWEFJSDFNZXJNDZXKJSUSSYYTHATSABITSUS", "&gt;&gt;&gt;")
+        if (span.innerHTML.includes("jfe<oiwfjoiewfnodfndofnmaidswoifdfshicujewcic") && span.innerHTML.includes("sussfykakrtkrtkawreoifwfjkarting")) {
+            // Here we are going to parse the message and replace the href source with /post/<id>
+            
+            const regex = /jfe<oiwfjoiewfnodfndofnmaidswoifdfshicujewcic(.*?)sussfykakrtkrtkawreoifwfjkarting/gim;
+            let match = regex.exec(span.innerHTML);
+            while (match != null) {
+                const id = match[1];
+                // Split the text with /
+                const split = id.split("/");
+                // Recreate the url
+                const url = `/${split[1]}${(split[2] && split[2].length) ? "#thread-" + split[2] : ""}`;
+                // Replace the url with the new url
+                span.innerHTML = span.innerHTML.replace(id, url);
+                match = regex.exec(span.innerHTML);
+            }
+
+            // Replace anything regarding the regex with nothing
+            span.innerHTML = span.innerHTML.replaceAll(regex, "$1")
+
+            // thank you github copilot
+
+            //console.log(link)
+            
+            
+        }
+
+        //.replace(":specialnyacosodaofferat<><>today!alsohikart!!");
+        content.appendChild(span);
+        content.appendChild(document.createElement("br"));
     }
 
     // ill do the highlighting later

@@ -1,5 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
 
+@keyframes image_blur {
+  0% { -webkit-filter: blur(10px);}
+  100% { -webkit-filter: blur(0px);}
+}
+
 body {
   background: #ffe url(fade1.png) top repeat-x;
   background-color: rgb(204,241,255);
@@ -15,6 +20,21 @@ body {
   display: table;
   margin: 0 auto;
 }
+.top a {
+  width: fit-content;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+div.contents table {
+  text-align: left;
+  width: 100%;
+}
+div.contents table tr {
+  display: block;
+  height: 1rem;
+}
 
 .ad {
   width: fit-content;
@@ -23,12 +43,28 @@ body {
   margin-right: auto;
 }
 
-.spoiler {
+span.spoiler {
   color: black;
   background-color: black;
 }
-.spoiler:hover {
+span.spoiler:hover {
   color: white;
+}
+
+img.spoiler {
+  -webkit-filter: blur(10px);
+  filter: blur(10px);
+}
+img.spoiler:hover {
+  animation: image_blur 0.1s linear;
+  -webkit-filter: blur(0px);
+  filter:blur(0px);
+  /*-webkit-filter: blur(0px);
+  filter: blur(0px);*/
+}
+
+div.board-options {
+  padding-bottom: 0.6rem;
 }
 
 .main {
@@ -50,6 +86,10 @@ div.board-start-thread {
   position: relative;
   top: 0.5rem;
   text-align: center;
+  width: fit-content;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
 div.board-start-thread:hover {
   text-decoration: underline;
@@ -68,13 +108,17 @@ div.main-board hr {
 
 div.creation-form form table {
   margin: auto;
-  padding: 10px;
-}
-div.creation-form form table  {
-  
   color: black;
   text-align: left;
 }
+div.creation-form form input[type=submit] {
+  display: block;
+  margin-right: auto;
+  margin-left: auto;
+  /*min-width: 10rem;
+  min-height: 2rem;*/
+}
+
 div.creation-form form table tr th.creation-form-label {
   border: 1px solid black;
   padding: .2rem;
