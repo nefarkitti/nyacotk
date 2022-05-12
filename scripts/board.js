@@ -18,7 +18,7 @@ function toggleCreation() {
     const creationForm = document.getElementById("creation-form")
     if (!startThread) throw new Error("Text not found")
     if (!creationForm) throw new Error("Creation Form not found")
-    startThread.hidden = true;
+    startThread.style.display = "none";
     creationForm.hidden = false;
 }
 
@@ -60,7 +60,27 @@ if (!title) throw new Error("Title not found");
 console.log("hello world!")
 
 
+function directReplyPost(e, postID) {
+    e=e||event; // IE sucks
 
+    var target = e.target||e.srcElement; // and sucks again
+
+    // target is the element that has been clicked
+    if (target && target.className=='remove') 
+    {
+        target.parentNode.parentNode.removeChild(target.parentNode);
+        return false; // stop event from bubbling elsewhere
+    }
+
+    toggleCreation();
+    const form = document.getElementById("createPost");
+    window.scrollTo(0, form.offsetTop);
+    form.hidden = false;
+    document.getElementById("generally-subject").hidden = true;
+    document.getElementById("post-comment").value = `>>${postID}`;
+    document.getElementById("isReply").value = true;
+    document.getElementById("replyTo").value = postID;
+}
 
 // Board Data stuff, will get it through axios request thikng
 async function init(name) {
@@ -83,6 +103,7 @@ async function init(name) {
             const errorText = document.getElementById("errorText");
             const subject = document.getElementById("post-subject").value;
             const comment = document.getElementById("post-comment").value;
+            const spoiler = document.getElementById("post-spoiler").checked;
             const isReply = document.getElementById("isReply").value;
             const replyTo = document.getElementById("replyTo").value;
             
@@ -99,7 +120,8 @@ async function init(name) {
                         subject,
                         content: comment,
                         file,
-                        board: name
+                        board: name,
+                        spoiler: (spoiler) ? 1 : 0,
                     }
                 });
                 if (response.status === 200) window.location.reload();
@@ -245,6 +267,14 @@ hideShowButton.onclick = function () {
 */
 
             function showThread() {
+                const startThreadText = document.getElementById("startThreadText");
+                if (startThreadText) {
+                    startThreadText.innerHTML = "<span><a><b>[reply to thread]</b></a></span>";
+                    document.getElementById("generally-subject").hidden = true;
+                    document.getElementById("post-comment").value = `>>${thread.id}`;
+                    document.getElementById("isReply").value = true;
+                    document.getElementById("replyTo").value = thread.id;
+                }
                 //toggleHide(`hs-replies-${thread.id}`, `reply-more-${thread.id}`, ["show all comments", "hide fewer comments"]);
                 // hide mainBoard
                 mainBoard.hidden = true;
@@ -269,8 +299,20 @@ hideShowButton.onclick = function () {
                         openBoard.removeChild(openBoard.firstChild);
                     }
                     history.pushState("", document.title, window.location.pathname);
+                    startThreadText.innerHTML = "<span><a><b>[start thread]</b></a></span>";
+                    document.getElementById("generally-subject").hidden = false;
+                    document.getElementById("post-comment").value = "";
+                    document.getElementById("isReply").value = false;
+                    document.getElementById("replyTo").value = -1;
                 }
+
                 openBoard.appendChild(threadDivClone);
+                const replyButtons = threadDivClone.querySelectorAll('[id^="_clickableID-"]');
+                replyButtons.forEach(button => {
+                    const postID = button.id.split("-")[1];
+                    button.onclick = (e) => directReplyPost(e, postID);
+                })
+                
                 //mainBoard.innerHTML = ""
             }
             hideShowReplies.onclick = showThread;
@@ -364,7 +406,6 @@ hideShowButton.onclick = function () {
 
 init(boardpage);
 
-
 function generatePost(post, isReply, index) {
     /*
 <div class="thread-info" hidden>File: <a href="https://pbs.twimg.com/media/EXFXCnWXkAEZKDQ.jpg">https://pbs.twimg.com/media/EXFXCnWXkAEZKDQ.jpg</a> (33.2KB, 591x512)</div>
@@ -396,6 +437,7 @@ function generatePost(post, isReply, index) {
     
     if (post.file != null) {
         const img = document.createElement("img");
+        if (post.spoiler) img.classList.add("spoiler");
         //img.src = `${URL}/external?url=${encodeURIComponent(post.file)}`;
         img.src = `https://external-content.duckduckgo.com/iu/?u=${encodeURIComponent(post.file)}`
 	    if (["https://cdn.upload.systems","https://i.upload.systems"].filter(x=>post.file.startsWith(x)).length) {
@@ -471,7 +513,6 @@ function generatePost(post, isReply, index) {
         document.getElementById("isReply").value = true;
         document.getElementById("replyTo").value = post.id;
     }
-
 
     opInfo.appendChild(clickableID);
 
