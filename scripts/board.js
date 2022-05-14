@@ -150,8 +150,16 @@ async function init(name) {
     
     try {
         const session = localStorage.getItem("kartissus")
+        // Check if the URL has a ?filter query parameter
+        const url = new URI(window.location);
+        let sorting = null;
+        if (url.search != "" && url.searchParams.has("filter")) {
+            sorting = url.searchParams.get("filter");
+        }
+        
+
         const req = await axios({
-            url: `${URL}/boards/${name}?page=1`,
+            url: `${URL}/boards/${name}?page=1&filter=${(sorting != null) ? sorting : "newest"}`,
             method: "GET",
             headers: {
                 "authorization": session
