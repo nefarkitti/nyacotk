@@ -150,7 +150,11 @@ async function init(name) {
     
     try {
         const session = localStorage.getItem("kartissus")
-
+        const url = new URI(window.location);
+        let sorting = null;
+        if (url.search != "" && url.searchParams.has("filter")) {
+            sorting = url.searchParams.get("filter");
+        }
 const board = {
     name: "/gen/",
     threads: [{
