@@ -25,7 +25,7 @@
 		|
 	</div>
 	<div class="top">
-		<img id="toplogo" src="" width="364" height="159">
+		<a href="/main.html"><img id="toplogo" src="" width="364" height="159"></a> <!-- iut does! -->
 	</div>
 	<div id="404page">
 		
@@ -107,11 +107,11 @@
 					<th class="creation-form-label">File (URL)</th>
 					<th><input name="name" type="text" id="post-url" autocomplete="off"></th>
 				</tr>
+
 				<tr>
 					<th class="creation-form-label">spoiler image</th>
 					<th><input type="checkbox" id="post-spoiler"></th>
 				</tr>
-				
 				<tr>
 					<th class="creation-form-label">image preview</th>
 					<th><img height="150" width="150" id="imgpreviewchange"></th>
@@ -127,6 +127,16 @@
 	</div>
 	<br>
 	<hr>
+
+	<div class="board-options" id="sorting">
+		<label for="sorting">Sort by: </label>
+
+		<select name="sorting" id="sorting-option">
+			<!--<option value="activity">Activity</option>-->
+			<option value="newest">Newest - Oldest</option>
+			<option value="oldest">Oldest - Newest</option>
+		</select>
+	</div>
 	<div id="boardopened" class="main-board" hidden></div>
 	<div id="board" class="main-board"></div>
 			<br>`

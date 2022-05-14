@@ -97,6 +97,16 @@ async function init(name) {
             }
         }
 
+        const sortingOption = document.getElementById("sorting-option");
+        if (sortingOption) {
+            sortingOption.onchange = function () {
+                const sorting = sortingOption.value;
+                // Add a ?sorting=sorting to the end of the existing url using window.location
+                const url = new URI(window.location);
+                url.searchParams.set("filter", sorting);
+                window.location = url;
+            }
+        }
 
         createPost.addEventListener('submit', async event => {
             event.preventDefault();
@@ -208,31 +218,65 @@ const board = {
             const fewReplies = document.createElement("div");
             const mostReplies = document.createElement("div");
 
-            thread.replies.forEach(reply => {
-                const replyDiv = generatePost(reply, true, thread.replies.indexOf(reply));
-                //replyDiv.style.clear = "left"
-                const index = thread.replies.indexOf(reply);
+            let previewReplies = thread.replies;
+            const allReplies = JSON.parse(JSON.stringify(thread.replies)) // js i cant;
+            if (previewReplies.length > 5 && !threadID) {
+                // Offset the replies based on the recent reply, for example, if the most recent reply is at index 6, we do not show the first index
+                // If the most recent reply is at index 7, we do not show the second index
+                // If the most recent reply is at index 8, we do not show the third index
+                // If the most recent reply is at index 9, we do not show the fourth index
+                // etc...
+                // Use splice and use a for loop to do this
+                // Have the index be at the end of the array
+                previewReplies = previewReplies.slice(thread.replies.length - 5, thread.replies.length);
+                
+                // really github copilot, it took you this many comments to figure that out, just wow
+            }
+
+            previewReplies.forEach(reply => {
+                const replyDiv = generatePost(reply, true, previewReplies.indexOf(reply));
+                const index = previewReplies.indexOf(reply);
                 if (index < 5) fewReplies.appendChild(replyDiv);
-                else mostReplies.appendChild(replyDiv);
+            })
+
+            allReplies.forEach(reply => {
+                const replyDiv = generatePost(reply, true, allReplies.indexOf(reply));
+                //replyDiv.style.clear = "left"
+
+                //else mostReplies.appendChild(replyDiv);
+                mostReplies.appendChild(replyDiv);
+                
                 //threadDiv.appendChild(replyDiv);
             })
             mostReplies.id = `reply-more-${thread.id}`;
             //const hideShowReplies = document.createElement("button");
             //hideShowReplies.id = `hs-replies-${thread.id}`;
+            const openThreadText = document.createElement("span");
             const hideShowReplies = document.createElement("a");
             mostReplies.hidden = true;
             hidePost[`reply-more-${thread.id}`] = false;
-            hideShowReplies.classList.add("hideshow");
-            hideShowReplies.innerText = "open thread";
+            openThreadText.classList.add("hideshow");
+            hideShowReplies.innerText = "open thread"
             hideShowReplies.href = `#thread-${thread.id}`
-            hideShowReplies.style.position = "relative";
-            hideShowReplies.style.bottom = "0.5rem";
+            openThreadText.style.position = "relative";
+            openThreadText.style.bottom = "0.5rem";
             hideShowReplies.hidden = false
-            postsDiv.appendChild(hideShowReplies);
+            if (thread.replies.length > 5) {
+                // Create a span with the text "x reply(ies) omitted, hideShowReplies to view", replacing hideShowReplies with the hideShowReplies element
+                openThreadText.innerText = `${thread.replies.length - 5} repl${(thread.replies.length > 6) ? "ies" : "y"} omitted, `;
+
+                openThreadText.appendChild(hideShowReplies);
+                openThreadText.appendChild(document.createTextNode(" to view"));
+                
+                
+            } else {
+                openThreadText.appendChild(hideShowReplies)
+            }
+            postsDiv.appendChild(openThreadText);
             postsDiv.appendChild(document.createElement("br"));
             if (thread.replies.length) {
                 postsDiv.appendChild(fewReplies);
-                if (thread.replies.length > 5) postsDiv.appendChild(mostReplies);
+                postsDiv.appendChild(mostReplies);
             }
             threadDiv.appendChild(postsDiv);
             threadDiv.appendChild(document.createElement("hr"));
@@ -282,6 +326,7 @@ hideShowButton.onclick = function () {
                 // append threadDiv to openBoard
                 hideShowButton.hidden = false;
                 hideShowReplies.hidden = true;
+                fewReplies.hidden = true;
                 mostReplies.hidden = false;
                 // Create a clone of threadDiv with the button events and all, then append it to openBoard
                 const threadDivClone = threadDiv.cloneNode(true);
@@ -293,6 +338,7 @@ hideShowButton.onclick = function () {
 
                     hideShowButton.hidden = true;
                     hideShowReplies.hidden = false;
+                    fewReplies.hidden = false;
                     mostReplies.hidden = true;
                     // Remove all children of openBoard
                     while (openBoard.firstChild) {
@@ -445,19 +491,19 @@ function generatePost(post, isReply, index) {
         }
         img.loading = "lazy"; // performance gain
         img.alt = "Image Loading...";
-        const { width, height } = img;
-
+        const { width, height } = {
+            width: img.naturalWidth,
+            height: img.naturalHeight
+        };
         img.onerror = function () {
             img.hidden = true;
         };
-
-        img.onload = function () {
-            img.width = 160
-        }
-
+        img.width = 160
+        img.resetImage = false;
         img.onclick = function () {
+            img.resetImage = !img.resetImage;
+            if (!img.resetImage) img.width = img.naturalWidth; else img.width = 160;
             // Reset the width to the original
-            img.width = img.naturalWidth;
         }
           
 
@@ -503,10 +549,12 @@ function generatePost(post, isReply, index) {
 
     const clickableID = document.createElement("a");
     clickableID.innerText = `${post.id}${isReply ? " (reply)" : ""}`;
-    clickableID.href="#createPost"
+    //clickableID.href="#createPost"
+    clickableID.id = `_clickableID-${post.id}-${Math.random()}`;
     clickableID.onclick = function() {
         toggleCreation();
         const form = document.getElementById("createPost");
+        window.scrollTo(0, form.offsetTop);
         form.hidden = false;
         document.getElementById("generally-subject").hidden = true;
         document.getElementById("post-comment").value = `>>${post.id}`;
