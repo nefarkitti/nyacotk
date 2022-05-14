@@ -99,6 +99,14 @@ async function init(name) {
 
         const sortingOption = document.getElementById("sorting-option");
         if (sortingOption) {
+            const url = new URI(window.location);
+            let sortingA = null;
+            if (url.search != "" && url.searchParams.has("filter")) {
+                sortingA = url.searchParams.get("filter");
+            }
+            if (sortingA != null) {
+                sortingOption.value = sortingA;
+            }
             sortingOption.onchange = function () {
                 const sorting = sortingOption.value;
                 // Add a ?sorting=sorting to the end of the existing url using window.location
@@ -156,7 +164,6 @@ async function init(name) {
         if (url.search != "" && url.searchParams.has("filter")) {
             sorting = url.searchParams.get("filter");
         }
-        
 
         const req = await axios({
             url: `${URL}/boards/${name}?page=1&filter=${(sorting != null) ? sorting : "newest"}`,
