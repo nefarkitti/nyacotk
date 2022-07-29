@@ -5,4 +5,4 @@ const amy = "https://github.com/ambalera"
 
 const credit = document.getElementById("credit")
 
-credit.innerHTML = `© <a href="${firee}">Firee</a> & <a href="${amy}">Amy</a>`
+credit.innerHTML = `© <a href="${firee}">Firee</a> & <a href="${amy}">Kenzie</a>`

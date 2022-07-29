@@ -631,9 +631,10 @@ function generatePost(post, isReply, index) {
     opInfo.classList.add("thread-op-info");
     const b1 = document.createElement("b");
     const span0 = document.createElement("span");
+    span0.classList.add("thread-title")
     span0.innerText = post.title + " ";
     const span1 = document.createElement("span");
-    span1.style.color = "green";
+    span1.style.color = "aqua";
     span1.innerText = post.user.name;
     b1.appendChild(span0);
     b1.appendChild(span1);
@@ -641,7 +642,8 @@ function generatePost(post, isReply, index) {
     opInfo.appendChild(b1);
 
     const id = document.createElement("span");
-    id.innerText = ` ${post.user.id} | `;
+    id.classList.add("thread-op-tag")
+    id.innerText = ` ${post.user.id} `;
 
     opInfo.appendChild(id);
 
@@ -691,7 +693,7 @@ function generatePost(post, isReply, index) {
             
         } else */if (line.startsWith(">") && !line.startsWith(">>")) {
             // turning text to purple
-            span.style.color = "purple";
+            span.style.color = "aquamarine";
             /*span.innerText = line;
             content.appendChild(span);
             content.appendChild(document.createElement("br"));*/

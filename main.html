@@ -7,7 +7,7 @@
 	<meta charset="UTF-8">
 	<meta name="description" content="a ripoff of 4chcan">
 	<meta name="keywords" content="nyaco">
-	<meta name="author" content="Amy Velasquez">
+	<meta name="author" content="Mackenzie Attala">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="icon" type="image/png" href="favicon.png">
 	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
@@ -17,7 +17,6 @@
 	<script src="/scripts/checkauth.js" defer></script>
 </head>
 <body onload="checkAuth('main')">
-	<div class="top-gradient"></div>
 	<div class="top">
 		<img id="toplogo" src="" width="364" height="159">
 	</div>
@@ -27,9 +26,9 @@
 			<div class="contents">
 			</div>
 		</div><br>-->
-		<div class="tablething">
+		<div class="tablething boardsHold`">
 			<div class="title"><b>boards</b></div>
-			<div class="contents">
+			<div class="contents" style="text-align:center;">
 				<!--<table>
 					<tr><th>text</th></tr>
 					<tr><th>test</th></tr>
@@ -37,24 +36,22 @@
 				</table>-->
 			</div>
 		</div><br>
-		<div class="tablething">
-			<div class="title"><b>stats</b></div>
-			<div class="contents">
-				<span id="onlineUsers">online users: 0</span><br>
-				<span id="collectedPosts">collected posts: 0</span>
+		<div class="tablething" style="border:none;background: none;box-shadow: none;">
+			<!--<div class="title"><b>stats</b></div>-->
+			<div class="contents" id="counter">
+				collected posts:<br><br>
 			</div>
 		</div>
 		<br>
 		<div class="other">
-			<a href="about.html">about</a>
-			-
-			<a href="feedback.html">feedback</a>
+			<a href="news.html">news</a>
 		</div>
 		<p class="credit" id="credit"></p>
 	</div>
 	<script defer>
 		(async function() {
 			try {
+				const counter = document.getElementById('counter')
 				const session = localStorage.getItem("kartissus")
 				const stats = await axios({
 					url: `${URL}/stats`,
@@ -74,8 +71,21 @@
 				const contents = document.querySelector('.contents');
 				const onlineUsers = document.getElementById('onlineUsers');
 				const collectedPosts = document.getElementById('collectedPosts');
-				onlineUsers.innerText = `online users: ${stats.data.online}`;
-				collectedPosts.innerText = `collected posts: ${stats.data.posts}`;
+				//onlineUsers.innerText = `online users: ${stats.data.online}`;
+
+				// convert number into images
+				let number = stats.data.posts
+				let numberArray = number.toString().split("")
+				
+				for (let i = 0; i < numberArray.length; i++) {
+  					const imgg = document.createElement("img")
+					imgg.src = `/counter/${numberArray[i]}.gif`
+					counter.appendChild(imgg)
+				}
+
+				//counter.innerText = `collected posts: ${stats.data.posts}`;
+
+
 				for (let i = 0; i < boards.length; i++) {
 					console.log(boards)
 					const board = document.createElement('a');

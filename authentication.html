@@ -1,0 +1,57 @@
+<html lang="en">
+<head>
+    <title>access - nyaco.tk</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="a ripoff of 4chcan">
+	<meta name="keywords" content="nyaco">
+	<meta name="author" content="Mackenzie Attala">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>baa baa you dont have access</title>
+    <script src="/scripts/config.js" defer></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="/scripts/checkauth.js" defer></script>
+	<link rel="icon" type="image/png" href="favicon.png">
+	<script src="/scripts/logo.js" defer></script>
+	<script src="/scripts/credit.js" defer></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body onload="checkAuth('auth')">
+    <script>
+        async function submitForm() {
+            const key = document.getElementById('key').value;
+            const errorText = document.getElementById('errortext');
+            try {
+                const verifyAuth = await axios.post(`${URL}/auth`, {
+                    code: key
+                });
+                if (verifyAuth) {
+                    localStorage.setItem('kartissus', verifyAuth.data.token);
+                    window.location.href = '/main';
+                }
+            } catch (e) {
+                console.error(e);
+                errorText.innerHTML = e.response.data;
+                setTimeout(function() {
+                    errorText.innerHTML = '';
+                }, 2000)
+            }
+        }
+    </script>
+    	<div class="top">
+            <img id="toplogo" src="" width="364" height="159">
+        </div>
+        <div class="main">
+            <div class="tablething">
+                <div class="title"><b>access</b></div>
+                <div class="contents" style="text-align:center;">
+                    <label for="thing">key:</label>
+                    <input type="password" name="thing" id="key">
+                    <button type="submit" onClick="submitForm()">submit</button>
+                    <p id="errortext"></p>
+                </div>
+            </div><br>
+            <p class="credit" id="credit"></p>
+        </div>
+</body>
+</html>

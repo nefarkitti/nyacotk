@@ -1,39 +1,49 @@
-<html lang="en">
+<!DOCTYPE html>
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>baa baa you dont have access</title>
-    <script src="/scripts/config.js" defer></script>
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <script src="/scripts/checkauth.js" defer></script>
+	<meta charset="utf-8">
+	<title>nyaco.tk - loading</title>
+	<link rel="stylesheet" type="text/css" href="style.css">
+	<meta charset="UTF-8">
+	<meta name="description" content="a ripoff of 4chcan">
+	<meta name="keywords" content="nyaco">
+	<meta name="author" content="Mackenzie Attala">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="icon" type="image/png" href="favicon.png">
+	<script src="/scripts/config.js" defer></script>
+	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 </head>
-<body onload="checkAuth('auth')">
-    <script>
-        async function submitForm() {
-            const key = document.getElementById('key').value;
-            const errorText = document.getElementById('errortext');
-            try {
-                const verifyAuth = await axios.post(`${URL}/auth`, {
-                    code: key
-                });
-                if (verifyAuth) {
-                    localStorage.setItem('kartissus', verifyAuth.data.token);
-                    window.location.href = '/main';
-                }
-            } catch (e) {
-                console.error(e);
-                errorText.innerHTML = e.response.data;
-                setTimeout(function() {
-                    errorText.innerHTML = '';
-                }, 2000)
-            }
-        }
-    </script>
-    <p>uhh uh huh h you dont have access what are yo doing !!!</p>
-    <label for="thing">access</label>
-    <input type="password" name="thing" id="key">
-    <button type="submit" onClick="submitForm()">submit</button>
-    <p id="errortext"></p>
+<body>
+	<script>
+		// on load
+		window.onload = async function() {
+			try {
+				const siteLoaded = await axios({
+					url: `${URL}`,
+					method: "GET",
+				});
+				if (siteLoaded.status == 200) {
+					window.location.href = "/authentication"
+				} else {
+					alert("The site is either not responding or giving an OK status, click OK to reload the page.");
+					window.location.reload();
+				}
+			} catch (err) {
+				console.error(err);
+				alert("There was an error loading the site, look in console for more info.")
+				window.location.reload();
+			}
+		};
+	</script>
+	<div class="main">
+		<div class="tablething" style="background:none;box-shadow:none;">
+			<div class="contents" style="text-align: center;">
+                <img src="loading.gif" alt="" height="250">
+                <br><br><br>
+                <div class="loader"></div><br>
+                <span>you will be redirected soon</span>
+			</div>
+		</div><br>
+	</div>
 </body>
 </html>

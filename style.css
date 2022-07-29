@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300&display=swap');
 
 @keyframes image_blur {
   0% { -webkit-filter: blur(10px);}
@@ -6,10 +6,24 @@
 }
 
 body {
-  background: #ffe url(fade1.png) top repeat-x;
-  background-color: rgb(204,241,255);
-  font-family: 'Open Sans', sans-serif;
-  color: #007acc;
+  background-color: rgb(37, 37, 37);
+  font-family: 'Hind Siliguri', sans-serif;
+  color: #f1f1f1;
+}
+
+a {
+  color: aquamarine;
+}
+
+a:link {
+  color:cadetblue;
+}
+a:visited {
+  color: aquamarine;
+}
+
+div.tablething div.contents a {
+  margin: 0.4rem;
 }
 
 body {
@@ -25,6 +39,11 @@ body {
   display: block;
   margin-left: auto;
   margin-right: auto;
+}
+
+#counter {
+  background:none;
+  text-align: center;
 }
 
 div.contents table {
@@ -46,14 +65,19 @@ div.contents table tr {
 span.spoiler {
   color: black;
   background-color: black;
+  padding-right: 0.1rem;
+  padding-left: 0.1rem;
+  border-radius: 5px;
 }
 span.spoiler:hover {
-  color: white;
+  color: #e1e0e0;
+  background: none;
 }
 
 img.spoiler {
   -webkit-filter: blur(10px);
   filter: blur(10px);
+  overflow: hidden;
 }
 img.spoiler:hover {
   animation: image_blur 0.1s linear;
@@ -102,13 +126,15 @@ div.main-board {
 }
 div.main-board hr {
   clear: both;
-  width: 100%;
 }
-
+hr {
+  color: aquamarine;
+  width: 85%;
+}
 
 div.creation-form form table {
   margin: auto;
-  color: black;
+  color: #f1f1f1;
   text-align: left;
 }
 div.creation-form form input[type=submit] {
@@ -122,7 +148,7 @@ div.creation-form form input[type=submit] {
 div.creation-form form table tr th.creation-form-label {
   border: 1px solid black;
   padding: .2rem;
-  background-color: rgb(245, 67, 67);
+  background-color: rgb(74, 74, 74);
   text-align: left;
 }
 div.creation-form form table tr th img {
@@ -131,25 +157,68 @@ div.creation-form form table tr th img {
   background-color: white;
 }
 
+div.thread {
+  background-color: #303030;
+  border-radius: 5px;
+  margin-left: 5rem;
+  margin-right: 5rem;
+  margin-top: 2rem;
+  border-left: 0.15rem solid aquamarine;
+  border-right: 0.15rem solid aquamarine;
+  box-shadow: 5px 5px 10px rgb(20,20,20);
+  animation: 0.5s ease-out 0s 1 slideUpBoard;
+  overflow-x: hidden;
+}
+
+div.thread:hover {
+  background-color: #393939;
+}
+
+div.thread hr {
+  color: rgba(0,0,0,0);
+}
 
 div.thread button.hideshow {
-  margin-right: 0.2rem;
-  margin-bottom: 0.5rem;
-  float: left;
+  background-color: aquamarine;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-left: 0.5rem;
+  padding: 0.2rem;
 }
+div.thread button.hideshow:hover {
+  border-radius: 4px;
+  background-color: rgb(192, 255, 234);
+}
+
+span.thread-title {
+  padding-left: 0.25rem;
+  border-left: teal 0.1rem solid;
+  border-radius: 4px;
+}
+
 div.thread-info {
   width: inherit;
   text-indent: 0.6rem;
   padding-top: 0.3rem;
+  padding-right: 0.6rem;
 }
 div.thread-info a {
   text-decoration: underline;
-  color: blue;
+}
+div.thread-op-info {
+  padding: 0.1rem;
+  padding-left: 0.25rem;
+  border-radius: 4px;
+}
+span.thread-op-tag {
+  filter: brightness(40%);
+  -webkit-filter: brightness(40%);
 }
 div.thread-op-info a {
   cursor: pointer;
   text-decoration: underline;
-  color:blue;
+  color:rgb(43, 223, 223);
 }
 div.thread-file {
   float: left;
@@ -157,6 +226,9 @@ div.thread-file {
   padding-left: 0.5rem;
   padding-top: 0.25rem;
   display: table-cell;
+}
+div.thread-file img {
+  border-radius: 10px;
 }
 div.thread-contents {
   /*display: table-cell;*/
@@ -173,29 +245,58 @@ div.thread-text p {
 }
 
 div.thread-reply {
-  background: rgb(255, 178, 178);
+  background: #434343;
   float: left;
-  width:fit-content;
+  width:auto;
   height: fit-content;
   display: table-cell;
   vertical-align: bottom;
   margin-bottom: 0.7rem;
+  margin-right: 1rem;
+  border-radius: 10px;
+  border-left: 0.15rem solid aqua;
+  margin-left: 1rem;
+  animation: 0.5s ease-out 0s 1 slideinLeft;
+}
+div.thread-reply:hover {
+  background: #4d4d4d;
 }
 div.thread-reply-contents {
   display:block;
 }
 
+span.hideshow {
+  margin-left: 0.5rem;
+}
 
+span.hideshow a {
+  margin-left: 0.2rem;
+  margin-right: 0.2rem;
+  background: aquamarine;
+  padding: 0.2rem;
+  border-radius: 5px;
+  color: rgb(18, 18, 18);
+  text-decoration: none;
+}
+span.hideshow a:hover {
+  background: rgb(192, 255, 234);
+  padding: 0.2rem;
+  border-radius: 10px;
+  color: rgb(18, 18, 18);
+}
 
 .tablething {
   position: relative;
   width: 50rem;
-  border:  1px solid blue;
+  background-color: #393939;
+  border-radius: 10px;
+  box-shadow: 5px 5px 10px rgb(20,20,20);
 }
 .tablething div.title {
+  background-color: #303030;
   position: relative;
   padding: 0.3rem;
-  background:  #7bd8ee;
+  border-radius: 0px;
 }
 .tablething div.error-title {
   text-align: center;
@@ -205,7 +306,6 @@ div.thread-reply-contents {
 }
 .tablething div.contents {
   padding: 1rem;
-  background: white;
  /* background-image: url("LOOK_AT_HE_GO.gif");
   background-size: cover;
   background-position:  bottom;*/
@@ -222,4 +322,64 @@ div.thread-reply-contents {
 .credit {
   filter: opacity(25%);
   text-align: center;
+}
+
+.loader {
+  border: 10px solid #2f2f2f; /* Light grey */
+  border-top: 10px solid #9f9f9f; /* Blue */
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  animation: spin 2s linear infinite;
+  margin: 0 auto;
+}
+
+.boardsHold {
+  animation: 1s ease-out 0s 1 slideUp;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes slideUp {
+  0% {
+    transform: translateY(100%);
+    filter: opacity(0%);
+  }
+  50% {
+    filter: opacity(0%);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+@keyframes slideUpBoard {
+  0% {
+    transform: translateY(10%);
+    filter: opacity(0%);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+@keyframes slideinLeft {
+  0% {
+    transform: translateX(-100%);
+    filter: opacity(0%);
+  }
+  100% {
+    transform: translateX(0);
+    filter: opacity(100%);
+  }
+}
+
+@keyframes hover {
+  0% {
+    filter: brightness(0%)
+  }
+  100% {
+    filter: brightness(100%);
+  }
 }

@@ -7,11 +7,11 @@
 	<meta charset="UTF-8">
 	<meta name="description" content="a ripoff of 4chcan">
 	<meta name="keywords" content="nyaco">
-	<meta name="author" content="Amy Velasquez">
+	<meta name="author" content="Mackenzie Attala">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="icon" type="image/png" href="/favicon.png">
-	<script src="/scripts/logo.js" defer></script>
 	<script src="/scripts/credit.js" defer></script>
+	<script src="/scripts/logo.js" defer></script>
 	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 	<script src="/scripts/config.js"></script>
 	<script src="/scripts/checkauth.js" defer></script>
@@ -40,11 +40,13 @@
 			fourofourpage.innerHTML = `
 		<div class="main">
 			<div class="tablething">
-				<div class="error-title"><b>404 Not Found</b></div>
-				<div class="error-contents" style="background:white;background-image:url('/LOOK_AT_HE_GO.gif');background-size:cover;background-position:bottom;image-rendering:pixelated;">
-					<img src="" width="325" height="325" style="object-fit: contain;" id="meem">
-					<h3>Could not find the page you were looking for.</h3>
-					<button onclick="history.back()">return</button>
+				<div class="title"><b>404 Not Found</b></div>
+				<div class="contents" style="background-image:url('/LOOK_AT_HE_GO.gif');background-size:cover;background-position:bottom;image-rendering:pixelated;">
+					<center>
+						<img src="" width="325" height="325" style="object-fit: contain;" id="meem">
+						<h3>Could not find the page you were looking for.</h3>
+						<button onclick="history.back()">return</button><br><br>
+					</center>
 				</div>
 			</div>
 			
@@ -157,7 +159,7 @@
 				const _boardExists = _boards.find(board => board.path == _board);
 				if (!_boardExists) return fourofourpagefn();
 				await checkAuth();
-				await initializeTrolling(_boardExists);		
+				await initializeTrolling(_boardExists); // trolling?
 			} catch (e) {
 				console.error(e)
 				fourofourpagefn();
@@ -165,9 +167,7 @@
 		})(URL)
 	</script>
 	<div class="other">
-		<a href="/about.html">about</a>
-		-
-		<a href="/feedback">feedback</a>
+		<a href="/news.html">news</a>
 	</div>
 </body>
 </html>
